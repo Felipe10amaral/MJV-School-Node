@@ -50,3 +50,5 @@ E-Order Service: It is an application that controls service orders for cell phon
  $ npm run dev
 
 ```
+
+- A biblioteca ZOD é utilizada para validação
