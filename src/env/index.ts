@@ -2,7 +2,7 @@ import 'dotenv/config'
 import { z } from 'zod'
 
 const envSchema = z.object({
-  NODE_ENV: z.enum(['dev', 'test', 'production']).default('dev'), // 3 ambeintes possiveis
+  NODE_ENV: z.enum(['dev', 'test', 'production']).default('dev'), // 3 ambientes possiveis
   PORT: z.coerce.number().default(3000), // coerce converte para numero
   DATABASE_URL: z.string().default('mongodb://127.0.0.1:27017/itec'),
   JWT_SECRET: z.string(),
