@@ -36,3 +36,17 @@ E-Order Service: It is an application that controls service orders for cell phon
  git@github.com:Felipe10amaral/MJV-School-Node.git
 
 ```
+
+```
+
+ # Install dependencies
+ npm install
+
+```
+
+```
+
+ # start project
+ npm run dev
+
+```
