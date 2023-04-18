@@ -33,7 +33,7 @@ E-Order Service: It is an application that controls service orders for cell phon
 ```
 
  # Clone the remote repository
- $ git clonegit@github.com:Felipe10amaral/MJV-School-Node.git
+ $ git clone git@github.com:Felipe10amaral/MJV-School-Node.git
 
 ```
 
