@@ -5,6 +5,40 @@ import orderServiceRepository from '../../repositories/orderService.repository'
 import { OrderServiceAlreadyExists } from '../../errors/orderServices/orderServicesAlreadyExists.error'
 import { OrderServiceNotFound } from '../../errors/orderServices/orderServiceNotFound.error'
 
+function validatedCreated(orderService: object) {
+  const registerSchema = z.object({
+    numberOS: z.string(),
+    name: z.string(),
+    telefone: z.string(),
+    cpf: z.string(),
+    model: z.string(),
+    repair: z.string(),
+    value: z.coerce.number(),
+    guarantee: z.string(),
+    createdAt: z.date().default(new Date()),
+  })
+
+  const os = registerSchema.parse(orderService)
+  return os
+}
+
+function validatedUpdated(orderService: Partial<IOrderService>) {
+  const registerSchema = z.object({
+    numberOS: z.string(),
+    name: z.string(),
+    telefone: z.string(),
+    cpf: z.string(),
+    model: z.string(),
+    repair: z.string(),
+    value: z.coerce.number(),
+    guarantee: z.string(),
+    createdAt: z.date().default(new Date()),
+  })
+
+  const os = registerSchema.parse(orderService)
+  return os
+}
+
 class OrderServiceServices {
   async getByOrder(numberOS: string) {
     const os = await orderServiceRepository.getByOneOrder(numberOS)
@@ -25,19 +59,7 @@ class OrderServiceServices {
   }
 
   async create(orderService: object) {
-    const registerSchema = z.object({
-      numberOS: z.string(),
-      name: z.string(),
-      telefone: z.string(),
-      cpf: z.string(),
-      model: z.string(),
-      repair: z.string(),
-      value: z.coerce.number(),
-      guarantee: z.string(),
-      createdAt: z.date().default(new Date()),
-    })
-
-    const os = registerSchema.parse(orderService)
+    const os = validatedCreated(orderService)
     const { numberOS } = os
 
     const orderServiceWithSameNumberOs =
@@ -64,23 +86,11 @@ class OrderServiceServices {
     if (!order) {
       throw new OrderServiceNotFound()
     }
-
-    const registerSchema = z.object({
-      numberOS: z.string(),
-      name: z.string(),
-      telefone: z.string(),
-      cpf: z.string(),
-      model: z.string(),
-      repair: z.string(),
-      value: z.coerce.number(),
-      guarantee: z.string(),
-      createdAt: z.date().default(new Date()),
-    })
-
-    const os = registerSchema.parse(orderService)
+    const os = validatedUpdated(orderService)
 
     return orderServiceRepository.update(numberOS, os)
   }
 }
 
 export default new OrderServiceServices()
+

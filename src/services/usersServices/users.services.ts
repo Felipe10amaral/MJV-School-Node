@@ -11,16 +11,31 @@ import { EmailAlreadyExists } from '../../errors/users/emailAlreadyExists'
 
 const secretJWT = env.JWT_SECRET
 
+function validatedCreate(user: IUser) {
+  const registerSchema = z.object({
+    name: z.string(),
+    username: z.string(),
+    email: z.string(),
+    password: z.string(),
+  })
+  const newUser = registerSchema.parse(user)
+  return newUser
+}
+
+function validatedUpdated(user: Partial<IUser>) {
+  const registerSchema = z.object({
+    name: z.string(),
+    username: z.string(),
+    email: z.string(),
+    password: z.string(),
+  })
+  const newUser = registerSchema.parse(user)
+  return newUser
+}
+
 class UsersServices {
   async create(user: IUser) {
-    const registerSchema = z.object({
-      name: z.string(),
-      username: z.string(),
-      email: z.string(),
-      password: z.string(),
-    })
-
-    const newUser = registerSchema.parse(user)
+    const newUser = validatedCreate(user)
 
     const { username, email } = newUser
 
@@ -80,14 +95,7 @@ class UsersServices {
     if (!newUser) {
       throw new UserNotFound()
     }
-    const registerSchema = z.object({
-      name: z.string(),
-      username: z.string(),
-      email: z.string(),
-      password: z.string(),
-    })
-
-    const userUpdated = registerSchema.parse(user)
+    const userUpdated = validatedUpdated(user)
 
     const userWithSameUsername = await usersRepository.getUserName(
       userUpdated.username,
@@ -124,3 +132,4 @@ class UsersServices {
 }
 
 export default new UsersServices()
+
