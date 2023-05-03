@@ -67,9 +67,17 @@ class UsersServices {
 
     const result = await compare(password, user.password)
     if (result) {
-      return sign({ email: user.password, _id: user._id }, secretJWT, {
+      const token = sign({ email: user.password, _id: user._id }, secretJWT, {
         expiresIn: '1h',
       })
+
+      const username = user.username
+
+      const response = {
+        username,
+        token,
+      }
+      return response
     } else {
       throw new InvalidCredentials()
     }
@@ -132,4 +140,3 @@ class UsersServices {
 }
 
 export default new UsersServices()
-

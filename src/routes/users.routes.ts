@@ -7,8 +7,8 @@ export const usersRoutes = Router()
 usersRoutes.post('/authorization', async (req: Request, res: Response) => {
   const { email, password } = req.body
   try {
-    const token = await usersServices.authorization(email, password)
-    res.status(200).send({ token })
+    const user = await usersServices.authorization(email, password)
+    res.status(200).send({ user })
   } catch (error: any) {
     res.status(401).send({ message: error.message })
   }
